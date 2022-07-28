@@ -165,3 +165,18 @@ pub async fn handle(mut req: Request<Body>) -> impl IntoResponse {
         )),
     }
 }
+
+/// Unit test to handle multiple slash path parsing
+#[async_std::test]
+async fn multiple_slashes() {    
+    let mut request = Request::builder()
+        .uri("https://www.rust-lang.org/")
+        .header("User-Agent", "my-awesome-agent/1.0")
+        .body(hyper::Body::empty());
+    println!("{:?}", request);
+
+    let res = handle(request.unwrap()).await;
+    
+    /// Temporary print to ensure test is working as intended.
+    println!("{}", res.into_response().status());
+}
